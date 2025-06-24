@@ -1,9 +1,8 @@
+import { RouterProvider } from 'react-router-dom';
+import router from './router';
+
 function App() {
-  return (
-    <div className="bg-blue-600 text-white p-4 rounded-xl text-2xl">
-      Tailwind działa w pełni! 🚀
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;
