@@ -1,9 +1,9 @@
 function App() {
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>User List CRUD App</h1>
+    <div className="bg-blue-600 text-white p-4 rounded-xl text-2xl">
+      Tailwind działa w pełni! 🚀
     </div>
-  )
+  );
 }
 
 export default App
