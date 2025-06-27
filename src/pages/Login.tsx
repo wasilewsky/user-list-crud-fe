@@ -2,7 +2,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from '../lib/axios';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -12,6 +13,9 @@ const loginSchema = z.object({
 type LoginData = z.infer<typeof loginSchema>;
 
 const Login = () => {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) return <Navigate to="/dashboard" />;
+
   const {
     register,
     handleSubmit,
