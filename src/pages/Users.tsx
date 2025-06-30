@@ -12,9 +12,11 @@ type User = {
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editedUser, setEditedUser] = useState({name: '', email: '', role: 'user'});
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const fetchUsers = () => {
     axios
       .get('/users')
       .then((res) => setUsers(res.data))
@@ -25,7 +27,26 @@ const Users = () => {
           setError('Failed to load users');
         }
       });
+  };
+  
+  useEffect(() => {
+    fetchUsers();
   }, []);
+
+  const handleEditClick = (user: User) => {
+    setEditingId(user.id);
+    setEditedUser({ name: user.name, email: user.email, role: user.role });
+  };
+
+  const handleSave = async (id: string) => {
+    try {
+      await axios.patch(`/users/${id}`, editedUser);
+      setEditingId(null);
+      fetchUsers();
+    } catch {
+      alert('Failed to update user');
+    }
+  };
 
   if (error) return <p className="text-red-500">{error}</p>;
 
@@ -38,16 +59,74 @@ const Users = () => {
             <th className="border p-2">Name</th>
             <th className="border p-2">Email</th>
             <th className="border p-2">Role</th>
+            <th className="border p-2">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((u) => (
-            <tr key={u.id}>
-              <td className="border p-2">{u.name}</td>
-              <td className="border p-2">{u.email}</td>
-              <td className="border p-2">{u.role}</td>
-            </tr>
-          ))}
+          {users.map((u) => 
+            editingId === u.id ? (
+              <tr key={u.id}>
+                <td className="border p-2">
+                  <input 
+                    value={editedUser.name}
+                    onChange={(e) => 
+                      setEditedUser({ ...editedUser, name: e.target.value })
+                    }
+                    className="border px-2 py-1"
+                  />
+                </td>
+                <td className="border p-2">
+                  <input 
+                    value={editedUser.email}
+                    onChange={(e) => 
+                      setEditedUser({ ...editedUser, email: e.target.value })
+                    }
+                    className="border px-2 py-1"
+                  />
+                </td>
+                <td className="border p-2">
+                  <select 
+                    value={editedUser.role}
+                    onChange={(e) => 
+                      setEditedUser({ ...editedUser, role: e.target.value })
+                    }
+                    className="border px-2 py-1"
+                  >
+                    <option value={'user'}>User</option>
+                    <option value={'admin'}>Admin</option>
+                  </select>
+                </td>
+                <td className="border p-2">
+                  <button
+                    onClick={() => handleSave(u.id)}
+                    className="bg-green-500 text-white px-2 py-1 rounded mr-2"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setEditingId(null)}
+                    className="bg-gray-300 px-2 py-1 rounded"
+                  >
+                    Cancel
+                  </button>
+                </td>
+              </tr>
+            ) : (
+              <tr key={u.id}>
+                <td className="border p-2">{u.name}</td>
+                <td className="border p-2">{u.email}</td>
+                <td className="border p-2">{u.role}</td>
+                <td className="border p-2">
+                  <button
+                    onClick={() => handleEditClick(u)}
+                    className="bg-blue-500 text-white px-2 py-1 rounded"
+                  >
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            )
+          )}
         </tbody>
       </table>
     </div>
