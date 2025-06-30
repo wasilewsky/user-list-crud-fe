@@ -5,6 +5,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import ProtectedRoute from './ProtectedRoute';
+import Users from '../pages/Users';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
         {
           index: true,
           element: <Dashboard />,
+        },
+        {
+          path: 'users',
+          element: <Users />
         },
       ],
     },
