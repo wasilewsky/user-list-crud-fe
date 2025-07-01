@@ -48,6 +48,18 @@ const Users = () => {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Are you sure you want to delete this user?")) return;
+
+    try {
+      const res = await axios.delete(`/users/${id}`);
+      alert(res.data.message);
+      fetchUsers();
+    } catch (err) {
+      alert("Failed to delete user");
+    }
+  };
+
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
@@ -122,6 +134,12 @@ const Users = () => {
                     className="bg-blue-500 text-white px-2 py-1 rounded"
                   >
                     Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(u.id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded ml-2"
+                  >
+                    Delete
                   </button>
                 </td>
               </tr>
