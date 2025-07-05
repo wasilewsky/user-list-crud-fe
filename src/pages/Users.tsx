@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from '../lib/axios';
 import { useNavigate } from 'react-router-dom';
+import AddUserForm from './AddUserForm';
 
 type User = {
   id: string;
@@ -65,6 +66,7 @@ const Users = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">All Users</h1>
+      {/* <AddUserForm onUserAdded={fetchUsers} /> */}
       <table className="w-full border-collapse border">
         <thead>
           <tr className="bg-gray-100">
