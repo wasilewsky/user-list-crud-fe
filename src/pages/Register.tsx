@@ -40,53 +40,57 @@ const Register = () => {
   };
   
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <h1 className="text-2xl font-bold text-center">Register</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="w-full max-w-md bg-white p-6 rounded-2xl shadow-lg">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <h1 className="text-3xl font-bold text-center text-gray-800">Register</h1>
 
-      <div>
-        <label className="block mb-1">Name</label>
-        <input
-          {...register('name')}
-          className="w-full border p-2 rounded"
-          type="text"
-        />
-        {errors.name && (
-          <p className="text-red-500 text-sm">{errors.name.message}</p>
-        )}
+          <div>
+            <label className="block mb-1 font-medium text-gray-700">Name</label>
+            <input
+              {...register('name')}
+              type="text"
+              className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block mb-1 font-medium text-gray-700">Email</label>
+            <input
+              {...register('email')}
+              type="email"
+              className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block mb-1 font-medium text-gray-700">Password</label>
+            <input
+              {...register('password')}
+              type="password"
+              className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-blue-600 text-white font-medium py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
+          >
+            {isSubmitting ? 'Registering...' : 'Register'}
+          </button>
+        </form>
       </div>
-
-      <div>
-        <label className="block mb-1">Email</label>
-        <input
-          {...register('email')}
-          className="w-full border p-2 rounded"
-          type="email"
-        />
-        {errors.email && (
-          <p className="text-red-500 text-sm">{errors.email.message}</p>
-        )}
-      </div>
-
-      <div>
-        <label className="block mb-1">Password</label>
-        <input
-          {...register('password')}
-          className="w-full border p-2 rounded"
-          type="password"
-        />
-        {errors.password && (
-          <p className="text-red-500 text-sm">{errors.password.message}</p>
-        )}
-      </div>
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition"
-      >
-        {isSubmitting ? 'Registering...' : 'Register'}
-      </button>
-    </form>
+    </div>
   );
 };
 
